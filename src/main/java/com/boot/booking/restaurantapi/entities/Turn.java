@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name="BOARD")
+@Table (name="TURN")
 public class Turn {
 	
 	@Id

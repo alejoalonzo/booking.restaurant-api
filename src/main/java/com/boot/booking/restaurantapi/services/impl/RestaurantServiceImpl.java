@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.boot.booking.restaurantapi.entities.Restaurant;
 import com.boot.booking.restaurantapi.exceptions.BookingExceptions;
@@ -13,6 +14,7 @@ import com.boot.booking.restaurantapi.jsons.RestaurantRest;
 import com.boot.booking.restaurantapi.repositories.RestaurantRepository;
 import com.boot.booking.restaurantapi.services.RestaurantServices;
 
+@Service
 public class RestaurantServiceImpl implements RestaurantServices {
 
 	@Autowired

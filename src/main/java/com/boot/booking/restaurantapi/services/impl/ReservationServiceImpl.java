@@ -5,6 +5,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.boot.booking.restaurantapi.entities.Reservation;
 import com.boot.booking.restaurantapi.entities.Restaurant;
 import com.boot.booking.restaurantapi.entities.Turn;
@@ -18,7 +20,7 @@ import com.boot.booking.restaurantapi.repositories.RestaurantRepository;
 import com.boot.booking.restaurantapi.repositories.TurnRepository;
 import com.boot.booking.restaurantapi.services.ReservationService;
 
-
+@Service
 public class ReservationServiceImpl implements ReservationService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReservationServiceImpl.class);
@@ -75,5 +77,9 @@ public class ReservationServiceImpl implements ReservationService {
 			throws BookingExceptions {
 		return restaurantId.getName() + createReservationRest.getTurnId();
 
+	}
+	
+	public ReservationRest getReservation(Long reservationId)throws BookingExceptions{
+		return null;
 	}
 }
