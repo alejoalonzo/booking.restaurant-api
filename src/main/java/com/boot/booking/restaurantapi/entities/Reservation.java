@@ -37,6 +37,15 @@ public class Reservation {
 	@JoinColumn(name = "RESTAURANT_ID", nullable = false)
 	private Restaurant restaurant;
 
+	@Column(name = "EMAIL")
+	private String  email;
+	
+	@Column(name = "NAME")
+	private String  name;
+	
+	@Column(name = "PAYMENT")
+	private boolean  payment;
+	
 	public final Long getId() {
 		return id;
 	}
@@ -83,6 +92,30 @@ public class Reservation {
 
 	public final void setTurn(String turn) {
 		this.turn = turn;
+	}
+
+	public final String getEmail() {
+		return email;
+	}
+
+	public final void setEmail(String email) {
+		this.email = email;
+	}
+
+	public final String getName() {
+		return name;
+	}
+
+	public final void setName(String name) {
+		this.name = name;
+	}
+
+	public final boolean isPayment() {
+		return payment;
+	}
+
+	public final void setPayment(boolean payment) {
+		this.payment = payment;
 	}
 
 }

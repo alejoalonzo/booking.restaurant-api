@@ -1,6 +1,5 @@
 package com.boot.booking.restaurantapi.services.impl;
 
-
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,21 +17,25 @@ import com.boot.booking.restaurantapi.jsons.ReservationRest;
 import com.boot.booking.restaurantapi.repositories.ReservationRepository;
 import com.boot.booking.restaurantapi.repositories.RestaurantRepository;
 import com.boot.booking.restaurantapi.repositories.TurnRepository;
+import com.boot.booking.restaurantapi.services.EmailService;
 import com.boot.booking.restaurantapi.services.ReservationService;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReservationServiceImpl.class);
-	
+
 	@Autowired
 	private ReservationRepository reservationRespository;
-	
+
 	@Autowired
 	private RestaurantRepository RestaurantRepository;
-	
+
 	@Autowired
 	private TurnRepository turnRepository;
+
+	@Autowired
+	private EmailService emailService;
 
 	public static final ModelMapper modelmapper = new ModelMapper();
 
@@ -49,28 +52,46 @@ public class ReservationServiceImpl implements ReservationService {
 	public String createReservation(CreateReservationRest createReservationRest) throws BookingExceptions {
 		final Restaurant restaurantId = RestaurantRepository.findById(createReservationRest.getRestaurantId())
 				.orElseThrow(() -> new NotFoundException("RESTAURANT_NOT_FOUND", "RESTAURANT_NOT_FOUND"));
-		
+
 		final Turn turn = turnRepository.findById(createReservationRest.getTurnId())
 				.orElseThrow(() -> new NotFoundException("TURN_NOT_FOUND", "TURN_NOT_FOUND"));
-		
+
 		String locator = generateLocator(restaurantId, createReservationRest);
-		
+
 		final Reservation reservation = new Reservation();
-		
+
 		reservation.setLocator(locator);
 		reservation.setPerson(createReservationRest.getPerson());
 		reservation.setDate(createReservationRest.getDate());
 		reservation.setRestaurant(restaurantId);
 		reservation.setTurn(turn.getName());
-		
+		reservation.setName(createReservationRest.getName());
+		reservation.setEmail(createReservationRest.getEmail());
+
 		try {
 			reservationRespository.save(reservation);
-		}catch(final Exception e){
+		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR", e);
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
 		}
-		
+
+		this.emailService.processSendEmail(createReservationRest.getEmail(), "RESERVATION",
+				createReservationRest.getName());
 		return locator;
+	}
+
+	public void updateReservation(final boolean payment, String locator) throws BookingExceptions {
+		final Reservation reservation = reservationRespository.findByLocator(locator)
+				.orElseThrow(() -> new NotFoundException("CODE_NOT_FOUND", "LOCATOR_NOT_FOUND"));
+	
+		reservation.setPayment(true);
+		
+		try {
+			reservationRespository.save(reservation);
+		} catch (final Exception e) {
+			LOGGER.error("INTERNAL_SERVER_ERROR", e);
+			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+		}
 	}
 
 	private String generateLocator(Restaurant restaurantId, CreateReservationRest createReservationRest)
@@ -78,8 +99,8 @@ public class ReservationServiceImpl implements ReservationService {
 		return restaurantId.getName() + createReservationRest.getTurnId();
 
 	}
-	
-	public ReservationRest getReservation(Long reservationId)throws BookingExceptions{
+
+	public ReservationRest getReservation(Long reservationId) throws BookingExceptions {
 		return null;
 	}
 }

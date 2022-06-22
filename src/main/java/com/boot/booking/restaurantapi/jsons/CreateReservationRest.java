@@ -20,6 +20,12 @@ public class CreateReservationRest {
 	
 	@JsonProperty("restaurantId")
 	private Long restaurantId;
+	
+	@JsonProperty("name")
+	private String name;
+	
+	@JsonProperty("email")
+	private String email;
 
 	public final Date getDate() {
 		return date;
@@ -51,6 +57,22 @@ public class CreateReservationRest {
 
 	public final void setRestaurantId(Long restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+
+	public final String getName() {
+		return name;
+	}
+
+	public final void setName(String name) {
+		this.name = name;
+	}
+
+	public final String getEmail() {
+		return email;
+	}
+
+	public final void setEmail(String email) {
+		this.email = email;
 	}
 
 }

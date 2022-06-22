@@ -37,6 +37,9 @@ public class Restaurant {
 	@OneToMany(cascade = CascadeType.ALL, fetch= FetchType.LAZY, mappedBy="restaurant")
 	private List<Turn> turns;
 
+	@Column(name = "PRICE")
+	private Long price;
+	
 	public final Long getId() {
 		return id;
 	}
@@ -99,6 +102,14 @@ public class Restaurant {
 
 	public final void setTurns(List<Turn> turns) {
 		this.turns = turns;
+	}
+
+	public final Long getPrice() {
+		return price;
+	}
+
+	public final void setPrice(Long price) {
+		this.price = price;
 	}
 }
 

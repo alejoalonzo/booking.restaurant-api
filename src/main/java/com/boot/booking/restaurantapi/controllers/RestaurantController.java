@@ -18,7 +18,7 @@ import com.boot.booking.restaurantapi.responses.BookingResponse;
 import com.boot.booking.restaurantapi.services.RestaurantServices;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "/booking-restaurant" + "/v1")
 public class RestaurantController {
 
